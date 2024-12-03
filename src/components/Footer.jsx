@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { PenSquare } from 'lucide-react';
+import React from "react";
+import { Link } from "react-router-dom";
+import { PenSquare } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -12,9 +12,15 @@ export default function Footer() {
             <span className="text-xl font-bold text-gray-800">BlogSpace</span>
           </Link>
           <div className="flex space-x-6">
-            <Link to="/terms" className="text-gray-600 hover:text-indigo-600">Terms</Link>
-            <Link to="/privacy" className="text-gray-600 hover:text-indigo-600">Privacy</Link>
-            <Link to="/contact" className="text-gray-600 hover:text-indigo-600">Contact</Link>
+            <Link to="/terms" className="text-gray-600 hover:text-indigo-600">
+              Terms
+            </Link>
+            <Link to="/privacy" className="text-gray-600 hover:text-indigo-600">
+              Privacy
+            </Link>
+            <Link to="/contact" className="text-gray-600 hover:text-indigo-600">
+              Contact
+            </Link>
           </div>
         </div>
         <div className="mt-8 text-center text-gray-500">

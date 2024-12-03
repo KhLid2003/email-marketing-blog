@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Mail, Menu, X } from 'lucide-react';
-import PopupNewsletter from './PopupNewsletter';
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Mail, Menu, X } from "lucide-react";
+import PopupNewsletter from "./PopupNewsletter";
 
 export default function Header() {
   const location = useLocation();
   const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
-  const isActive = (path: string) => {
-    return location.pathname === path ? 'text-indigo-600' : 'text-gray-600 hover:text-indigo-600';
+
+  const isActive = (path) => {
+    return location.pathname === path
+      ? "text-indigo-600"
+      : "text-gray-600 hover:text-indigo-600";
   };
 
   return (
@@ -21,16 +23,24 @@ export default function Header() {
               <Mail className="h-8 w-8 text-indigo-600" />
               <span className="text-xl font-bold text-gray-800">EmailPro</span>
             </Link>
-            
+
             <nav className="hidden md:flex space-x-8">
-              <Link to="/" className={isActive('/')}>Home</Link>
-              <Link to="/articles" className={isActive('/articles')}>Articles</Link>
-              <Link to="/services" className={isActive('/services')}>Services</Link>
-              <Link to="/about" className={isActive('/about')}>About</Link>
+              <Link to="/" className={isActive("/")}>
+                Home
+              </Link>
+              <Link to="/articles" className={isActive("/articles")}>
+                Articles
+              </Link>
+              <Link to="/services" className={isActive("/services")}>
+                Services
+              </Link>
+              <Link to="/about" className={isActive("/about")}>
+                About
+              </Link>
             </nav>
 
             <div className="flex items-center gap-4">
-              <button 
+              <button
                 onClick={() => setIsNewsletterOpen(true)}
                 className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition-colors"
               >
@@ -51,28 +61,36 @@ export default function Header() {
               <div className="px-2 pt-2 pb-3 space-y-1">
                 <Link
                   to="/"
-                  className={`block px-3 py-2 rounded-md ${isActive('/')} text-base font-medium`}
+                  className={`block px-3 py-2 rounded-md ${isActive(
+                    "/"
+                  )} text-base font-medium`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Home
                 </Link>
                 <Link
                   to="/articles"
-                  className={`block px-3 py-2 rounded-md ${isActive('/articles')} text-base font-medium`}
+                  className={`block px-3 py-2 rounded-md ${isActive(
+                    "/articles"
+                  )} text-base font-medium`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Articles
                 </Link>
                 <Link
                   to="/services"
-                  className={`block px-3 py-2 rounded-md ${isActive('/services')} text-base font-medium`}
+                  className={`block px-3 py-2 rounded-md ${isActive(
+                    "/services"
+                  )} text-base font-medium`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Services
                 </Link>
                 <Link
                   to="/about"
-                  className={`block px-3 py-2 rounded-md ${isActive('/about')} text-base font-medium`}
+                  className={`block px-3 py-2 rounded-md ${isActive(
+                    "/about"
+                  )} text-base font-medium`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   About
@@ -83,7 +101,7 @@ export default function Header() {
         </div>
       </header>
 
-      <PopupNewsletter 
+      <PopupNewsletter
         isOpen={isNewsletterOpen}
         onClose={() => setIsNewsletterOpen(false)}
       />

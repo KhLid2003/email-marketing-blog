@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { Mail, CheckCircle } from 'lucide-react';
+import React, { useState } from "react";
+import { Mail, CheckCircle } from "lucide-react";
 
 export default function Newsletter() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     // Here you would typically send the email to your backend
     setSubscribed(true);
-    setEmail('');
+    setEmail("");
   };
 
   return (

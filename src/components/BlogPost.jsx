@@ -1,16 +1,6 @@
 import { Calendar, Clock, User } from "lucide-react";
 import { Link } from "react-router-dom";
 
-interface BlogPostProps {
-  title: string;
-  excerpt: string;
-  author: string;
-  date: string;
-  readTime: string;
-  imageUrl: string;
-  category: string;
-}
-
 export default function BlogPost({
   title,
   excerpt,
@@ -19,7 +9,7 @@ export default function BlogPost({
   readTime,
   imageUrl,
   category,
-}: BlogPostProps) {
+}) {
   const articleUrl = `/article/${encodeURIComponent(
     title.toLowerCase().replace(/\s+/g, "-")
   )}`;

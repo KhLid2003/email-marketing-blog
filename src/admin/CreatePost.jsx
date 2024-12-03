@@ -1,18 +1,7 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState } from "react";
 
-interface FormData {
-  title: string;
-  excerpt: string;
-  author: string;
-  date: string;
-  readTime: string;
-  imageUrl: string;
-  category: string;
-  content: string;
-}
-
-const CreatePost: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
+export default function CreatePost() {
+  const [formData, setFormData] = useState({
     title: "",
     excerpt: "",
     author: "",
@@ -23,9 +12,7 @@ const CreatePost: React.FC = () => {
     content: "",
   });
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -33,7 +20,7 @@ const CreatePost: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     console.log("New Post Data:", formData);
     // Add functionality to handle form submission, e.g., sending data to an API
@@ -179,6 +166,4 @@ const CreatePost: React.FC = () => {
       </form>
     </div>
   );
-};
-
-export default CreatePost;
+}

@@ -10,8 +10,6 @@ import { featuredPost, categories } from "../data/blog-data";
 import { db } from "../database/firebase";
 import { getDocs, collection } from "firebase/firestore";
 
-// import { blogPosts, featuredPost, categories } from "../data/blog-data";
-
 const blogCollection = collection(db, "blogPosts");
 
 export default function Home() {
@@ -26,7 +24,6 @@ export default function Home() {
           id: doc.id,
         }));
         console.log(filterdData);
-
         setData(filterdData);
       } catch (err) {
         console.error(err);
@@ -35,6 +32,7 @@ export default function Home() {
 
     getData();
   }, []);
+
   return (
     <>
       <SEO

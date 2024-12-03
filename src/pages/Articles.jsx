@@ -11,11 +11,10 @@ import { getDocs, collection } from "firebase/firestore";
 const blogCollection = collection(db, "blogPosts");
 
 export default function Articles() {
-  // filter
-
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const categoryParam = searchParams.get("category");
@@ -25,7 +24,7 @@ export default function Articles() {
     }
   }, [searchParams]);
 
-  const handleCategorySelect = (category: string) => {
+  const handleCategorySelect = (category) => {
     setSelectedCategory(category);
     if (category === "All") {
       searchParams.delete("category");
@@ -35,14 +34,10 @@ export default function Articles() {
     setSearchParams(searchParams);
   };
 
-  const [data, setData] = useState([]);
-
   const filteredPosts =
     selectedCategory === "All"
       ? data
       : data.filter((post) => post.category === selectedCategory);
-
-  // get data
 
   useEffect(() => {
     const getData = async () => {
@@ -53,7 +48,6 @@ export default function Articles() {
           id: doc.id,
         }));
         console.log(filterdData);
-
         setData(filterdData);
       } catch (err) {
         console.error(err);

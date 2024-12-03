@@ -1,19 +1,10 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-interface Category {
-  name: string;
-  count: number;
-}
-
-interface CategoryListProps {
-  categories: Category[];
-}
-
-export default function CategoryList({ categories }: CategoryListProps) {
+export default function CategoryList({ categories }) {
   const navigate = useNavigate();
 
-  const handleCategoryClick = (categoryName: string) => {
+  const handleCategoryClick = (categoryName) => {
     navigate(`/articles?category=${encodeURIComponent(categoryName)}`);
   };
 
@@ -22,7 +13,7 @@ export default function CategoryList({ categories }: CategoryListProps) {
       <h3 className="text-xl font-bold text-gray-800 mb-4">Categories</h3>
       <div className="space-y-2">
         {categories.map((category, index) => (
-          <button 
+          <button
             key={index}
             onClick={() => handleCategoryClick(category.name)}
             className="w-full flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50 transition-colors"

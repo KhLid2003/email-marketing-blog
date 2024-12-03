@@ -1,12 +1,6 @@
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
-interface SEOProps {
-  title: string;
-  description: string;
-  canonical?: string;
-}
-
-export default function SEO({ title, description, canonical }: SEOProps) {
+export default function SEO({ title, description, canonical }) {
   return (
     <Helmet>
       <title>{title}</title>
