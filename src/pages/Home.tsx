@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { ChevronRight } from "lucide-react";
 import SEO from "../components/SEO";
 import FeaturedPost from "../components/FeaturedPost";
@@ -5,9 +6,35 @@ import BlogPost from "../components/BlogPost";
 import CategoryList from "../components/CategoryList";
 import Newsletter from "../components/Newsletter";
 import AdBanner from "../components/AdBanner";
-import { blogPosts, featuredPost, categories } from "../data/blog-data";
+import { featuredPost, categories } from "../data/blog-data";
+import { db } from "../database/firebase";
+import { getDocs, collection } from "firebase/firestore";
+
+// import { blogPosts, featuredPost, categories } from "../data/blog-data";
+
+const blogCollection = collection(db, "blogPosts");
 
 export default function Home() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const blogData = await getDocs(blogCollection);
+        const filterdData = blogData.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        console.log(filterdData);
+
+        setData(filterdData);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    getData();
+  }, []);
   return (
     <>
       <SEO
@@ -30,7 +57,7 @@ export default function Home() {
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {blogPosts.map((post, index) => (
+              {data.map((post, index) => (
                 <BlogPost key={index} {...post} />
               ))}
             </div>
