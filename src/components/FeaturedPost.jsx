@@ -11,9 +11,7 @@ export default function FeaturedPost({
   imageUrl,
   category,
 }) {
-  const articleUrl = `/article/${encodeURIComponent(
-    title.toLowerCase().replace(/\s+/g, "-")
-  )}`;
+  const articleUrl = `/article/${encodeURIComponent(title)}`;
 
   return (
     <article className="relative bg-white rounded-xl overflow-hidden shadow-xl mb-12 hover:shadow-2xl transition-shadow duration-300">

@@ -1,12 +1,4 @@
-
-interface EmailTemplateProps {
-  title: string;
-  content: string;
-  imageUrl: string;
-  ctaLink: string;
-}
-
-export default function EmailTemplate({ title, content, imageUrl, ctaLink }: EmailTemplateProps) {
+export default function EmailTemplate({ title, content, imageUrl, ctaLink }) {
   return `
     <!doctype html>
     <html>

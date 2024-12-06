@@ -8,7 +8,9 @@ import Services from "./pages/Services";
 import About from "./pages/About";
 import ArticleDetail from "./pages/ArticleDetail";
 import ScrollToTop from "./components/ScrollToTop";
-import CreatePost from "./admin/CreatePost";
+import AdminDashboard from "./admin/pages/AdminDashboard";
+import CreatePost from "./admin/pages/CreatePost";
+import EditPost from "./admin/pages/EditPost";
 
 export default function App() {
   return (
@@ -22,8 +24,10 @@ export default function App() {
             <Route path="/articles" element={<Articles />} />
             <Route path="/services" element={<Services />} />
             <Route path="/about" element={<About />} />
-            <Route path="/CreatePost" element={<CreatePost />} />
             <Route path="/article/:title" element={<ArticleDetail />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/posts/new" element={<CreatePost />} />
+            <Route path="/admin/posts/edit/:id" element={<EditPost />} />
           </Routes>
           <Footer />
         </div>

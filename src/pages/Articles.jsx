@@ -14,7 +14,8 @@ export default function Articles() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [data, setData] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const categoryParam = searchParams.get("category");
@@ -23,6 +24,25 @@ export default function Articles() {
       setIsFilterOpen(true);
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const snapshot = await getDocs(blogCollection);
+        const fetchedPosts = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setPosts(fetchedPosts);
+      } catch (err) {
+        console.error("Error fetching posts:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
@@ -34,28 +54,19 @@ export default function Articles() {
     setSearchParams(searchParams);
   };
 
-  const filteredPosts =
-    selectedCategory === "All"
-      ? data
-      : data.filter((post) => post.category === selectedCategory);
+  const filteredPosts = selectedCategory === "All" 
+    ? posts 
+    : posts.filter(post => post.category === selectedCategory);
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const blogData = await getDocs(blogCollection);
-        const filterdData = blogData.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-        console.log(filterdData);
-        setData(filterdData);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    getData();
-  }, []);
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center">
+          <p className="text-gray-600">Loading articles...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -112,8 +123,8 @@ export default function Articles() {
 
         {filteredPosts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-            {data.map((post, index) => (
-              <BlogPost key={index} {...post} />
+            {filteredPosts.map((post) => (
+              <BlogPost key={post.id} {...post} />
             ))}
           </div>
         ) : (

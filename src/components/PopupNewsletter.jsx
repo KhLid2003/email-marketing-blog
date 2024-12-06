@@ -1,6 +1,5 @@
-import React from "react";
-import { Mail, X } from "lucide-react";
-import boltAction from "path/to/boltAction";
+import React from 'react';
+import { Mail, X } from 'lucide-react';
 
 export default function PopupNewsletter({ isOpen, onClose }) {
   if (!isOpen) return null;
@@ -20,7 +19,7 @@ export default function PopupNewsletter({ isOpen, onClose }) {
         >
           <X size={24} />
         </button>
-
+        
         <div className="p-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="bg-indigo-100 p-2 rounded-full">
@@ -28,28 +27,14 @@ export default function PopupNewsletter({ isOpen, onClose }) {
             </div>
             <h2 className="text-2xl font-bold text-gray-800">Newsletter</h2>
           </div>
-
+          
           <p className="text-gray-600 mb-6">
-            Subscribe to our newsletter and stay updated with the latest email
-            marketing trends and tips.
+            Subscribe to our newsletter and stay updated with the latest email marketing trends and tips.
           </p>
 
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit();
-              boltAction({
-                type: "file",
-                filePath: "src/components/PopupNewsletter.jsx",
-              });
-            }}
-            className="space-y-4"
-          >
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                 Name
               </label>
               <input
@@ -60,12 +45,9 @@ export default function PopupNewsletter({ isOpen, onClose }) {
                 placeholder="Enter your name"
               />
             </div>
-
+            
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                 Email
               </label>
               <input

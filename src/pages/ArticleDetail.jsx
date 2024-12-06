@@ -1,28 +1,62 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Calendar, Clock, User } from "lucide-react";
 import SEO from "../components/SEO";
-import { blogPosts, featuredPost } from "../data/blog-data";
 import AdBanner from "../components/AdBanner";
+import ArticleContent from "../components/ArticleContent";
+import { db } from "../database/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 export default function ArticleDetail() {
   const { title } = useParams();
   const navigate = useNavigate();
-
-  const article = [...blogPosts, featuredPost].find(
-    (post) =>
-      encodeURIComponent(post.title.toLowerCase().replace(/\s+/g, "-")) ===
-      title
-  );
+  const [article, setArticle] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const decodedTitle = decodeURIComponent(title).replace(/-/g, " ");
+        const articlesRef = collection(db, "blogPosts");
+        const q = query(articlesRef, where("title", "==", decodedTitle));
+
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          const articleData = {
+            id: querySnapshot.docs[0].id,
+            ...querySnapshot.docs[0].data(),
+          };
+          setArticle(articleData);
+        }
+      } catch (error) {
+        console.error("Error fetching article:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArticle();
     window.scrollTo(0, 0);
-  }, []);
+  }, [title]);
+
+  if (loading) {
+    return (
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 className="text-2xl font-bold text-gray-800">Loading...</h1>
+      </div>
+    );
+  }
 
   if (!article) {
     return (
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h1 className="text-2xl font-bold text-gray-800">Article not found</h1>
+        <button
+          onClick={() => navigate("/articles")}
+          className="mt-4 text-indigo-600 hover:text-indigo-700"
+        >
+          Back to Articles
+        </button>
       </div>
     );
   }
@@ -73,13 +107,13 @@ export default function ArticleDetail() {
 
           <AdBanner type="horizontal" />
 
-          <div className="prose prose-lg prose-indigo max-w-none mt-8">
-            {article.content.split("\n\n").map((paragraph, index) => (
-              <p key={index} className="mb-4 text-gray-600 leading-relaxed">
-                {paragraph.trim()}
-              </p>
-            ))}
-          </div>
+          {Array.isArray(article.content) ? (
+            <ArticleContent content={article.content} />
+          ) : (
+            <div className="prose prose-lg prose-indigo max-w-none">
+              <p className="text-gray-600 leading-relaxed">{article.content}</p>
+            </div>
+          )}
 
           <AdBanner type="horizontal" />
         </article>

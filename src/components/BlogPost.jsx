@@ -10,9 +10,7 @@ export default function BlogPost({
   imageUrl,
   category,
 }) {
-  const articleUrl = `/article/${encodeURIComponent(
-    title.toLowerCase().replace(/\s+/g, "-")
-  )}`;
+  const articleUrl = `/article/${encodeURIComponent(title)}`;
 
   return (
     <article className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
