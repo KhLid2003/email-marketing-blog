@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Edit, Trash2, Plus } from 'lucide-react';
-import { getPosts, deletePost } from '../../utils/firebase';
-import toast, { Toaster } from 'react-hot-toast';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Edit, Trash2, Plus } from "lucide-react";
+import { getPosts, deletePost } from "../../utils/firebase";
+import FeaturedPostSelector from "../components/FeaturedPostSelector";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function AdminDashboard() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
 
   const fetchPosts = async () => {
     try {
@@ -23,14 +20,18 @@ export default function AdminDashboard() {
     }
   };
 
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
   const handleDelete = async (postId) => {
-    if (window.confirm('Are you sure you want to delete this post?')) {
+    if (window.confirm("Are you sure you want to delete this post?")) {
       try {
         await deletePost(postId);
-        setPosts(posts.filter(post => post.id !== postId));
-        toast.success('Post deleted successfully');
+        setPosts(posts.filter((post) => post.id !== postId));
+        toast.success("Post deleted successfully");
       } catch (error) {
-        toast.error('Failed to delete post');
+        toast.error("Failed to delete post");
       }
     }
   };
@@ -46,7 +47,7 @@ export default function AdminDashboard() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <Toaster position="top-right" />
-      
+
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold text-gray-900">Manage Posts</h1>
         <Link
@@ -64,7 +65,9 @@ export default function AdminDashboard() {
             <li key={post.id}>
               <div className="px-4 py-4 flex items-center sm:px-6">
                 <div className="min-w-0 flex-1">
-                  <h3 className="text-lg font-medium text-gray-900">{post.title}</h3>
+                  <h3 className="text-lg font-medium text-gray-900">
+                    {post.title}
+                  </h3>
                   <div className="mt-1 flex items-center text-sm text-gray-500">
                     <span>{post.author}</span>
                     <span className="mx-2">•</span>
@@ -74,6 +77,11 @@ export default function AdminDashboard() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
+                  <FeaturedPostSelector
+                    postId={post.id}
+                    isFeatured={post.featured}
+                    onUpdate={fetchPosts}
+                  />
                   <Link
                     to={`/admin/posts/edit/${post.id}`}
                     className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
