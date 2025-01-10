@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RichTextEditor from "../../components/RichTextEditor";
+import ContentPreview from "../../components/ContentPreview";
 import { addPost } from "../../utils/firebase";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function CreatePost() {
   const navigate = useNavigate();
+  const [showPreview, setShowPreview] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     excerpt: "",
@@ -39,7 +41,6 @@ export default function CreatePost() {
     e.preventDefault();
 
     try {
-      // Format the data
       const postData = {
         ...formData,
         readTime: `${formData.readTime} min read`,
@@ -202,6 +203,13 @@ export default function CreatePost() {
                 value={formData.content}
                 onChange={handleEditorChange}
               />
+              <button
+                type="button"
+                onClick={() => setShowPreview(true)}
+                className="mt-2 inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-600 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Preview Content
+              </button>
             </div>
           </div>
 
@@ -228,6 +236,13 @@ export default function CreatePost() {
           </button>
         </div>
       </form>
+
+      {showPreview && (
+        <ContentPreview
+          content={formData.content}
+          onClose={() => setShowPreview(false)}
+        />
+      )}
     </div>
   );
 }
